@@ -2,8 +2,8 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL + "/api/",
-  withCredentials: true,
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true, // WAJIB true agar browser mau mengirim cookie ke backend
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

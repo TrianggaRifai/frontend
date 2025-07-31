@@ -12,7 +12,8 @@ export default function PublicationDetailPage() {
   useEffect(() => {
     const fetchPublication = async () => {
       try {
-        const response = await apiClient.get(`/publikasi/${id}`);
+        // FIX: Tambahkan awalan /api/ pada URL di bawah ini
+        const response = await apiClient.get(`/api/publikasi/${id}`);
         setPublication(response.data);
       } catch (err) {
         setError('Gagal mengambil data publikasi.');
@@ -40,26 +41,28 @@ export default function PublicationDetailPage() {
     <div className="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold text-gray-800 mb-2">{publication.title}</h1>
       <p className="text-sm text-gray-500 mb-6">
-        Tanggal Rilis: {new Date(publication.release_date).toLocaleDateString('id-ID')}
+        Tanggal Rilis: {new Date(publication.release_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
       </p>
 
-      <img
-        src={publication.cover_url}
-        alt={`Sampul ${publication.title}`}
-        className="w-full max-w-md mx-auto rounded shadow mb-6"
-      />
+      {publication.cover_url && (
+        <img
+            src={publication.cover_url}
+            alt={`Sampul ${publication.title}`}
+            className="w-full max-w-md mx-auto rounded shadow-md mb-8"
+        />
+      )}
 
-      <h2 className="text-lg font-semibold text-gray-800 mb-2">Deskripsi</h2>
+      <h2 className="text-xl font-semibold text-gray-800 mb-2">Deskripsi</h2>
       <p className="text-gray-700 text-justify leading-relaxed whitespace-pre-line mb-8">
         {publication.description || 'Tidak ada deskripsi tersedia.'}
       </p>
 
-      <div className="flex justify-start">
+      <div className="flex justify-start border-t pt-6 mt-6">
         <button
           onClick={() => navigate('/publications')}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded transition-colors"
+          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition-colors"
         >
-          Kembali ke Daftar
+          &larr; Kembali ke Daftar
         </button>
       </div>
     </div>
